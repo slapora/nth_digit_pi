@@ -1,0 +1,28 @@
+Here's an example Python program to calculate the nth digit of Pi using the Bailey–Borwein–Plouffe (BBP) formula, which is a formula for the nth binary digit of Pi:
+
+python
+Copy code
+from decimal import *
+
+def nth_digit_of_pi(n):
+    getcontext().prec = n + 1
+    pi = Decimal(0)
+    for k in range(n):
+        pi += Decimal(1) / Decimal(16) ** Decimal(k) * (
+            Decimal(4) / (8 * Decimal(k) + 1) -
+            Decimal(2) / (8 * Decimal(k) + 4) -
+            Decimal(1) / (8 * Decimal(k) + 5) -
+            Decimal(1) / (8 * Decimal(k) + 6)
+        )
+    pi = str(pi)[2:]
+    return pi
+
+# Example usage
+n = 1000000
+nth_digit = nth_digit_of_pi(n)
+print(f"The {n}th digit of Pi is {nth_digit}.")
+In this program, we use the Decimal class from the decimal module to perform arbitrary-precision decimal arithmetic. The getcontext().prec line sets the precision of the calculations to n + 1, so that we can get the nth digit of Pi.
+
+We then use a for loop to calculate the sum of the BBP formula for the first n terms, and convert the result to a string. Finally, we return the string starting from the third character (since the first two characters are "0." which are not digits of Pi) as the nth digit of Pi.
+
+Note that the BBP formula only gives the nth binary digit of Pi, so we have to convert it to decimal notation by dividing the result by 2.
